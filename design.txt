@@ -1,0 +1,63 @@
+## Register
+method : POST , path : /register
+BODY : msisdn , service
+RESPONSE
+201 {message: 'Registered successfully', user}
+400 {message: 'Invalid mobile number, Please check again'}
+400 {message: 'This mobile number has subscription more than 3}
+403 {message: 'You are in blacklist'}
+
+
+
+## Subscription
+GET ALL LIST
+method : GET , path /subscription/lists
+RESPONSE
+200 {allLists : [{msisdn : String, createdAt: Datetime, services : [{"description": String}]}]}
+
+GET LIST BY NUMBER
+method : GET , path /subscription/list/:msisdn
+RESPONSE
+200 {allLists : [{msisdn : String, createdAt: Datetime, services : [{"description": String}]}]}
+200 {message: 'Subscription not found}
+400 {message: 'Invalid mobile number, Please check again'}
+
+DELETE SUBSCRIPTION 
+method : DELETE , path /subscription/remove/:msisdn
+RESPONSE
+200 {message: 'Already deleted!' }
+400 {message: 'Invalid mobile number, Please check again'}
+
+
+
+## Blacklist
+GET BLACKLIST BY MOBILE NUMBER
+method : GET , path /blacklist/:msisdn
+RESPONSE
+200 {allLists : [{msisdn : String, createdAt: Datetime, services : [{"description": String}]}]}
+200 {message: 'Not found in blacklist'}
+400 {message: 'Invalid mobile number, Please check again'}
+
+CREATE NEW BLACKLIST BY MOBILE NUMBER
+method : POST , path /blacklist/insert
+BODY : msisdn , reason
+RESPONSE
+200 {allLists : [{msisdn : String, createdAt: Datetime, services : [{"description": String}]}]}
+400 {message: 'Invalid mobile number, Please check again'}
+400 {message: 'Reason is required'}
+
+UPDATE REASON BY MOBILE NUMBER
+method : PATCH , path /blacklist/update/:msisdn
+PARAM : msisdn
+BODY : reason
+RESPONSE
+200 {message: "Already updated" , updateBlacklist : id: Number,reason: String,msisdn: String,createdAt: Datetime,updatedAt: Datetime}
+400 {message: 'Invalid mobile number, Please check again'}
+400 {message: 'Reason is required'}
+
+DELETE BLACKLIST BY NUMBER 
+method : DELETE , path /blacklist/remove/:msisdn
+RESPONSE
+200 {message: 'Already deleted!' }
+400 {message: 'Invalid mobile number, Please check again'}
+
