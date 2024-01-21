@@ -8,11 +8,6 @@ export class RegisterService {
 
     async createRegister(dto: RegisDto) {
         const { msisdn, service } = dto;
-        // check mssidn pattern
-        if (!(msisdn.startsWith('99') && msisdn.length === 11)) {
-            throw new BadRequestException('Invalid mobile number, Please check again')
-        }
-
         // check service limit
         const serviceUser = await this.prisma.subscription.findMany({ where: { msisdn } });
         if (serviceUser) {
